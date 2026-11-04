@@ -15,11 +15,11 @@ The engine uses bot-authored issue markers and a durable bot-authored state comm
 
 ## Evidence classes
 
-| Class | Activities |
-|---|---|
-| Self-confirmed | Project existence/privacy/linking, cloning, item membership, draft conversion, fields, values, board, iterations, roadmap, workload, charts, status updates and export |
+| Class               | Activities                                                                                                                                                                                                |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Self-confirmed      | Project existence/privacy/linking, cloning, item membership, draft conversion, fields, values, board, iterations, roadmap, workload, charts, status updates and export                                    |
 | Repository-verified | Lab 2 native blocked_by relationship; learner PR, correct repository/head/base/branch, exact changed file/content and native closingIssuesReferences; same checked head merged into main and issue states |
-| Mixed | Lab 2 final merge is repository-verified; Project Done and Sprint 2 reassignment are self-confirmed by the completion command |
+| Mixed               | Lab 2 final merge is repository-verified; Project Done and Sprint 2 reassignment are self-confirmed by the completion command                                                                             |
 
 Project URL validation checks a strict HTTPS GitHub URL, owner, account type and positive number **only**. It does not query Projects or infer existence from a 404. Project UI work is never described as API-verified. A course completion is not an independently reviewed assessment.
 
@@ -30,3 +30,13 @@ Run the portable `node --test --test-reporter=tap` suite and `node tools/verify-
 `tools/build-screenshots.mjs` downloads immutable, attributed GitHub Docs images and uses an author-only Playwright browser to render twelve navigation-overview sheets. Participant copies need none of that tooling. It preserves original files and digests for attribution and reproducibility. Images show real documented UI entry points; they are not claimed to be authenticated screenshots of a BSP tenant or proof that every latest menu was live-tested.
 
 The daily work report records actual local test counts, hosted workflow results and any native rehearsal scope. Do not claim a private personal Project was inspected automatically or that an unperformed UI exercise passed.
+
+## Native bootstrap result — 2026-11-04
+
+The scoped author probe passed with the real GitHub Actions repository token on the source's initial content commit. It verified bot-created sample issues, a durable state comment, a rendered first lesson, an idempotent rerun and the native dependency-list endpoint, then closed exactly its five probe issues. **Zero learner steps were completed; zero Projects were created or queried.**
+
+The first probe's immediate issue-list receipt did not contain the new exercise; its original failure is retained. An exact issue GET confirmed the expected bot-created record. A reconciled rerun of the same source commit passed with no duplicated issues. This is not permission to assume every empty list is transient or to repeat a mutation blindly.
+
+The author probe temporarily removes the canonical-source skip **in memory only**, while requiring the exact source repository to be private and not a template. It is now inert because the published source is public and marked as a template. It is not a native template-copy event or a full participant UI/PR/merge rehearsal. Those boundaries and the actual run URLs are in the [daily work report](daily%20work%20report/2026-11-04.md).
+
+<!-- End of the 2026-11-04 verification record. -->
