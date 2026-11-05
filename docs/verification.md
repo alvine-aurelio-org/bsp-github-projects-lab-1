@@ -2,9 +2,9 @@
 
 ## Publication layout
 
-- **Lab 1** is the only learner starter template and packages all twelve lessons, Mona's engine and images.
-- **Lab 2 / Lab 3** are companion reference repositories. They deliberately contain no learner bootstrap; they link back to the starter and tell learners not to make another copy.
-- A participant creates a private template copy, clones that copy, creates a matching-owner Project in Step 0 and completes the three modules in the **one automatically created exercise issue**. V2 never seeds work issues or creates separate lesson issues.
+- **Lab 1** is the recommended full-workshop starter and packages all twelve lessons, Mona's engine and images.
+- **Lab 2 / Lab 3** also support optional four-step standalone starts. Their Mona caller uses a commit-pinned reusable runtime, one exercise issue and no work-item seeding. Standalone setup is included within 45 minutes; the existing full-workshop continuation remains 35 minutes per later lab.
+- For all three modules, the participant creates one private template copy through the browser, creates a matching-owner Project in Step 0 and stays in the **same automatically created exercise issue**. No second learner copy is required. Someone practising only Lab 2 or 3 may choose that lab's template instead, not in addition.
 - The source repositories are public so participants need no source-repository invitation. Only synthetic workshop material is published.
 
 ## Runtime
@@ -25,7 +25,11 @@ V2 starts with an empty backlog-role map. At Step 1-1 the learner creates four w
 | Repository-verified | Lab 2 native blocked_by relationship; learner PR, correct repository/head/base/branch, exact changed file/content and native closingIssuesReferences; same checked head merged into main and issue states |
 | Mixed               | Lab 2 final merge is repository-verified; Project Done and Sprint 2 reassignment are self-confirmed by the completion command                                                                             |
 
-Project URL validation checks a strict HTTPS GitHub URL, owner, account type and positive number **only**. It does not query Projects or infer existence from a 404. Project UI work is never described as API-verified. A course completion is not an independently reviewed assessment.
+The learner pastes the Project's address-bar URL as a new comment, without a command or editing placeholders. View suffixes and address-bar query/fragment data are normalized internally to the main Project URL. Saved-state validation remains strict. Validation checks syntax, matching owner/account type and a positive Project number **only**; it never queries Projects or infers existence from a 404. Project UI work is never described as API-verified.
+
+All participant actions are browser-only. The PR activity uses GitHub's branch menu, pencil editor, Commit changes dialog and PR page. Export uses the browser's Downloads list; no participant editor, terminal, Git installation or spreadsheet is required. Author tooling is separate from participant instructions.
+
+Standalone module code runs from an immutable public framework commit; caller metadata and README are read as data, never executed. Module state binds the caller repository/learner/Project roles and README hash. The two manually created work issues are identified by exact titles and native author/ID/date checks at first link submission. All later lessons stay in the same issue. Module tests cover both four-step flows, failure recovery and one-issue-only idempotency. This does not claim a native personal-Project UI rehearsal.
 
 ## Author checks
 

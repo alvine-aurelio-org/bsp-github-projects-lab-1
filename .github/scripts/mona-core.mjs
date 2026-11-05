@@ -275,6 +275,48 @@ export function validateProjectUrl(value, owner, ownerType) {
   return `https://github.com/${type}/${owner}/projects/${match[3]}`;
 }
 
+// Accept an address-bar Project link without asking learners to edit it.
+// This only normalizes syntax; it never fetches a Project or verifies access.
+export function normalizeProjectUrl(value, owner, ownerType) {
+  if (
+    typeof value !== 'string' ||
+    value.length > 512 ||
+    /[\s\\\u0000-\u001f]/.test(value)
+  )
+    return null;
+  const address = value.split(/[?#]/)[0];
+  if (
+    !/^https:\/\/github\.com\/(?:users|orgs)\//.test(address) ||
+    /%|\/(?:\.|\.\.)(?:\/|$)/.test(address)
+  )
+    return null;
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    return null;
+  }
+  if (
+    url.protocol !== 'https:' ||
+    url.hostname !== 'github.com' ||
+    url.username ||
+    url.password ||
+    url.port ||
+    /%|\.{2}/.test(url.pathname)
+  )
+    return null;
+  const match =
+    /^\/(users|orgs)\/([A-Za-z\d][A-Za-z\d-]{0,38})\/projects\/([1-9]\d*)(?:\/views\/([1-9]\d*))?\/?$/.exec(
+      url.pathname,
+    );
+  if (!match || (match[4] && !positive(Number(match[4])))) return null;
+  return validateProjectUrl(
+    `https://github.com/${match[1]}/${match[2]}/projects/${match[3]}`,
+    owner,
+    ownerType,
+  );
+}
+
 export function initialState(workshop, binding, exercise) {
   return {
     ...binding,
@@ -501,6 +543,8 @@ export function parseCommand(body) {
   )
     return null;
   if (body === '/status' || body === '/help') return { verb: body.slice(1) };
+  if (/^https:\/\/github\.com\//.test(body))
+    return { verb: 'project', url: body, direct: true };
   let match = /^\/project (\S+)$/.exec(body);
   if (match) return { verb: 'project', url: match[1] };
   match = /^\/backlog #([1-9]\d*) #([1-9]\d*) #([1-9]\d*) #([1-9]\d*)$/.exec(
@@ -527,7 +571,9 @@ export function statusText(workshop, state) {
   return (
     `Mona: ${state.completed.length}/${workshop.lessons.length} lessons recorded. ` +
     (lesson
-      ? `Current lesson: **${lesson.id} — ${lesson.title}**. Submit \`${commandText(lesson, state)}\`.`
+      ? lesson.id === '1-0'
+        ? `Current lesson: **${lesson.id} — ${lesson.title}**. Paste your Project URL as a new comment.`
+        : `Current lesson: **${lesson.id} — ${lesson.title}**. Submit \`${commandText(lesson, state)}\`.`
       : '**Workshop complete.**') +
     '\n\nProject UI work is **SELF-CONFIRMED**, never API-verified.'
   );
@@ -536,7 +582,7 @@ export function statusText(workshop, state) {
 export function helpText(workshop, state) {
   return (
     `${statusText(workshop, state)}\n\nUse one exact command per new, unedited comment. ` +
-    '`/project YOUR_PROJECT_URL`, `/backlog #FEATURE #IMPLEMENTATION #VERIFICATION #BUG`, `/done LESSON_ID`, `/check 2-2`, `/check 2-3 #NUMBER`, `/check 2-4 #NUMBER`, `/status`, `/help`. ' +
+    'For the first step, paste only your Project URL. Later steps use `/backlog #FEATURE #IMPLEMENTATION #VERIFICATION #BUG`, `/done LESSON_ID`, `/check 2-2`, `/check 2-3 #NUMBER`, `/check 2-4 #NUMBER`, `/status`, `/help`. ' +
     'Create the four work issues manually at lesson 1-1. Only the current lesson and the bound learner are accepted. ' +
     '`/done` cannot bypass backlog registration or repository checks. Registered roles cannot be rebound. There is no reset or skip.'
   );
@@ -560,18 +606,18 @@ export function planCommand(workshop, state, body) {
     );
   const wrong = () =>
     reply(
-      `Mona: no progress changed. Current lesson is **${lesson.id}**; use \`${commandText(lesson, state)}\`. No reset or skip is available.`,
+      lesson.id === '1-0'
+        ? 'Mona: open your Project, copy its address-bar URL, and paste only that link here.'
+        : `Mona: no progress changed. Current lesson is **${lesson.id}**; use \`${commandText(lesson, state)}\`. No reset or skip is available.`,
     );
   if (lesson.id === '1-0' && command.verb === 'project') {
-    const projectUrl = validateProjectUrl(
-      command.url,
-      state.owner,
-      state.ownerType,
-    );
+    const projectUrl = (
+      command.direct ? normalizeProjectUrl : validateProjectUrl
+    )(command.url, state.owner, state.ownerType);
     return projectUrl
       ? { kind: 'self', lessonId: lesson.id, projectUrl }
       : reply(
-          'Mona: use an HTTPS github.com Project URL with this repository owner and account type, a positive project number, and no suffix, query, credentials or escapes. This checks syntax/owner only; Project UI is SELF-CONFIRMED.',
+          'Mona: open the Project owned by the same account as this repository. Copy its address-bar URL and paste only that link in a new comment.',
         );
   }
   if (lesson.id === '1-0') return wrong();
@@ -856,7 +902,7 @@ export function verifyPullRequest(workshop, state, plan, snapshot) {
 
 function feedbackFor(id, details) {
   if (id === '1-0')
-    return 'Mona: **1-0 — SELF-CONFIRMED**. Project URL syntax, owner and account type match only; existence, access and all Project UI work are SELF-CONFIRMED. No Project was probed.';
+    return 'Mona: Project link saved. Next, create your backlog. (Project settings are self-confirmed.)';
   if (id === '1-1')
     return (
       'Mona: **1-1 — MIXED EVIDENCE**. Four native issue GETs verified distinct numbers and immutable IDs, this repository, open non-PR work issues, the bound human author, creation dates, clean metadata and exact role titles. ' +
@@ -995,8 +1041,9 @@ export function renderLesson(workshop, state, lesson, source) {
     (text.includes(screenshot)
       ? ''
       : `![Lesson ${lesson.id} illustration](${screenshot})\n\n`) +
-    `**Project UI: SELF-CONFIRMED.** Mona never calls the Projects API.\n\n` +
-    `When ready, submit \`${commandText(lesson, state)}\` in a new comment.\n\n` +
+    (lesson.id === '1-0'
+      ? 'Paste only your Project URL as a new comment below.\n\n'
+      : `When ready, submit \`${commandText(lesson, state)}\` in a new comment.\n\n`) +
     'Octocat artwork: [GitHub Octodex](https://octodex.github.com/).';
   requireSafe(
     result.length <= 60_000,

@@ -34,7 +34,7 @@ test('Project UI work cannot be advertised as repository verification', () => {
   assert.equal(self.length, 8);
   for (const lesson of self) {
     const markdown = readFileSync(resolve(root, lesson.file), 'utf8');
-    assert.ok(markdown.includes('SELF-CONFIRMED'));
+    if (lesson.id !== '1-0') assert.ok(markdown.includes('SELF-CONFIRMED'));
     assert.ok(!markdown.includes('**REPOSITORY-VERIFIED:**'));
   }
 });
@@ -78,7 +78,19 @@ test('the actual twelve lessons render with public images and learner-specific n
     );
     assert.ok(!text.includes('{{'));
     assert.ok(text.includes(workshop.publicAssetBase + lesson.image));
-    assert.ok(text.includes('SELF-CONFIRMED'));
+    if (lesson.id === '1-0')
+      assert.ok(text.includes('Paste only your Project URL'));
+    else {
+      const evidence = {
+        'self-confirmed': 'SELF-CONFIRMED',
+        'repository-verified': 'REPOSITORY-VERIFIED',
+        mixed: 'MIXED EVIDENCE',
+      }[lesson.mode];
+      assert.ok(
+        text.includes(evidence),
+        `Missing honest evidence class for ${lesson.id}`,
+      );
+    }
   }
 });
 
@@ -93,7 +105,10 @@ test('one instruction thread is explicit in the actual bootstrap and unbound bac
     samples: null,
   };
   assert.equal(workshop.bootstrapIssueLimit, 1);
-  const authorProbe = readFileSync(resolve(root, 'tools/native-smoke.mjs'), 'utf8');
+  const authorProbe = readFileSync(
+    resolve(root, 'tools/native-smoke.mjs'),
+    'utf8',
+  );
   assert.ok(!authorProbe.includes('course.exerciseMarker ='));
   assert.ok(!authorProbe.includes('course.stateMarker ='));
   for (const lesson of workshop.lessons.slice(0, 2)) {

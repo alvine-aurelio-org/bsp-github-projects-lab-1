@@ -4,7 +4,7 @@
 
 **One learner. One private repository. One private Project. Three short laboratories.**
 
-Build a fictional digital-service release plan with Mona's GitHub Skills-style guidance. This is the **only starter template**: its private copy contains all three laboratory modules. **Bootstrap creates exactly one issue: Mona's start-here thread.** Every lesson, check and next step stays in that issue's comments. Do not copy the Lab 2 or Lab 3 companion repositories.
+Build a fictional digital-service release plan with Mona's GitHub Skills-style guidance. **Everything is browser-based.** This recommended starter contains all three laboratory modules in one private repository and one Project. **Bootstrap creates exactly one issue: Mona's start-here thread.** Every lesson and next step stays in its comments. Labs 2 and 3 also offer standalone templates for practising just that lab; choose one path, not three copies for the full workshop.
 
 [![Start the workshop](https://img.shields.io/badge/Start_the_workshop-Use_this_template-238636?style=for-the-badge&logo=github)](https://github.com/alvine-aurelio-org/bsp-github-projects-lab-1/generate)
 
@@ -14,25 +14,25 @@ Build a fictional digital-service release plan with Mona's GitHub Skills-style g
 - **What will you learn?** Backlog organization, custom fields, boards, iterations, dependencies, PR traceability, roadmaps, workload views, Insights and status updates.
 - **What will you build?** Your own private Project, linked only to your private repository, with synthetic work items and a real documentation PR.
 - **How long?** Lab 1: **40 minutes**; Lab 2: **35 minutes**; Lab 3: **35 minutes**. **Four steps per lab**, including Lab 1's Step 0.
-- **Prerequisites:** a GitHub account allowed to create private repositories and Projects, enabled GitHub Actions/Issues, Git, VS Code or another text editor, and normal Git authentication. No participant Node/npm, GitHub CLI, PAT, App, instructor provisioning, Copilot, GHAS or cloud account is required.
+- **Prerequisites:** a browser and a GitHub account allowed to create private repositories and Projects, with Actions and Issues enabled. No installed software, extra access token or instructor provisioning is required.
 
 Use a personal account only if your organization's policy permits. Enterprise Managed User or organization restrictions may prevent private resource creation or Actions; the course cannot bypass them. Private Actions usage may consume the account's included minutes or billed allowance.
 
 ## How to start — part of Step 0
 
-1. Select **Use this template → Create a new repository**. Owner: **your account**; name: `my-projects-workshop`; visibility: **Private**. Leave **Include all branches** off. Do not fork this source and do not clone its URL.
+1. Select **Use this template → Create a new repository**. Owner: **your account**; name: `my-projects-workshop`; visibility: **Private**. Leave **Include all branches** off. Stay in your new repository on the GitHub website.
 2. Open **Issues → Mona's GitHub Projects workshop — start here** in your newly created repository. This is the **only automatically created issue**. Mona welcomes you there, checks each completed step and posts the next instructions as comments in that same thread. Allow a short time for the startup workflow; refresh Issues.
 3. If the exercise is missing, open **Actions → Mona — guided workshop → Run workflow → main** once. If Actions or Issues are disabled, enable them for your own copy where permitted, then rerun. The published source intentionally does not seed an exercise.
 
-Mona's Step 0 tells you how to **clone your own copy** and **create/link your private Project**. Cloning by itself does not create either remote resource. The repository and Project must have the same owner. Do not invite other learners.
+Mona's Step 0 shows you how to **create and link your private Project** using the website. Then open the Project, copy the URL from your browser's address bar and paste only that link as a new comment in Mona's issue. No command or link editing is needed. The repository and Project must have the same owner. Do not invite other learners.
 
-![Real GitHub navigation for copying the template, cloning your own repository and locating Projects](assets/screenshots/lab-1-step-0.png)
+![GitHub browser navigation for creating your private copy and locating Projects](assets/screenshots/lab-1-step-0.png)
 
 ## Lab 1 — 40 minutes
 
 | Step  | Topic                    | Practical result                                                                            |   Time |
 | ----- | ------------------------ | ------------------------------------------------------------------------------------------- | -----: |
-| **0** | Create your workspace    | Private template copy, local clone and one linked private Project                           | 12 min |
+| **0** | Create your workspace    | Private template copy and one linked private Project, using the browser                     | 12 min |
 | **1** | Create your backlog      | Four learner-created work issues plus one converted draft; register their numbers with Mona | 10 min |
 | **2** | Add planning information | Priority, Effort and an assigned implementation task                                        | 10 min |
 | **3** | Save a delivery board    | Saved Board and a task moved to In progress                                                 |  8 min |
@@ -41,16 +41,16 @@ The complete, screenshot-guided activities are in [Step 0](lessons/lab-1/00-work
 
 ## Continue without creating anything else
 
-| Laboratory                                     | Four activities                                                             | Companion reference                                                      |
-| ---------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| **2 · Plan and complete sprint work · 35 min** | Plan Sprint 1; create a dependency; push/open a linked PR; merge/carry over | [Lab 2](https://github.com/alvine-aurelio-org/bsp-github-projects-lab-2) |
-| **3 · Visualize and communicate · 35 min**     | Roadmap; workload; current chart; status update/export                      | [Lab 3](https://github.com/alvine-aurelio-org/bsp-github-projects-lab-3) |
+| Laboratory                                     | Four activities                                                                            | Companion reference                                                      |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| **2 · Plan and complete sprint work · 35 min** | Plan Sprint 1; create a dependency; edit/open a linked PR in the browser; merge/carry over | [Lab 2](https://github.com/alvine-aurelio-org/bsp-github-projects-lab-2) |
+| **3 · Visualize and communicate · 35 min**     | Roadmap; workload; current chart; status update/export                                     | [Lab 3](https://github.com/alvine-aurelio-org/bsp-github-projects-lab-3) |
 
-Mona posts Labs 2 and 3 in the **same exercise issue**. The companion repositories are reference guides, not additional learner templates. All work remains in your initial repository and Project.
+Mona posts Labs 2 and 3 in the **same exercise issue**. For the full workshop, stay here: no other repository or Project is needed. To practise only Lab 2 or only Lab 3 independently, choose that lab's standalone template instead; its four browser-only steps include setup and take 45 minutes.
 
 ## How Mona checks work
 
-- **SELF-CONFIRMED:** Project creation/privacy/linking, item membership, fields, views, sprint assignments, charts, updates and export. Use the exact `/project ...` or `/done LAB-STEP` command Mona shows.
+- **SELF-CONFIRMED:** Project creation/privacy/linking, item membership, fields, views, sprint assignments, charts, updates and export. For the first step, paste only your Project URL. Later steps show a short completion command.
 - **BACKLOG REGISTRATION:** at Step 1-1, **you** create the work issues, then submit `/backlog #FEATURE #IMPLEMENTATION #VERIFICATION #BUG` in the same Mona thread. Mona verifies their native identities, titles and learner authorship. Their Project membership and draft conversion remain self-confirmed. These are hands-on work items, **not additional instruction issues**.
 - **REPOSITORY-VERIFIED:** native issue dependency, PR author/repository/branch, the single changed checklist file, required content, native closing relationship, merge and issue state. Use the exact `/check ...` command Mona shows.
 - **MIXED:** Lab 2 completion verifies the merge and issue closure; submitting its check self-confirms Project Done and Sprint 2 carry-over.
@@ -63,7 +63,7 @@ Only the learner who starts the exercise can progress it. Post commands as **new
 
 - **No Mona:** check the Actions run, Issues setting, private visibility and default branch `main`; rerun the Mona workflow. A public copy is deliberately not initialized. These commands do not configure organization-wide permissions.
 - **A check failed:** leave the PR open until Step 2-3 passes. Use the right issue/PR numbers and exact branch/file. Do not commit unrelated files or change the checked PR head after it passes.
-- **Git sign-in/author configuration:** use your own normal Git sign-in and repository-local author settings. Do not put credentials in issues, files or command arguments shared with others.
+- **File edit went to the wrong branch:** use GitHub's branch menu before clicking the pencil button. The PR exercise uses **workshop/release-checklist**, not main.
 - **Organization requires PR approval:** respect it. The no-instructor path assumes a private personal sandbox that does not require independent review. This lab never teaches self-approval or disabling protections.
 - **Feature missing:** do not self-confirm an activity you could not perform. Check account entitlements/policies. The course does not award an API error or missing feature as a pass.
 - **An older copy has five bot-created issues:** that was the v1 bootstrap. A template update does not alter existing copies. Start a new private copy from this updated template for the single-issue flow; do not merge v2 over active v1 progress or delete its saved state. The runtime fails closed rather than silently resetting or creating a second instruction thread. No automatic migration or cleanup of learner work is performed.

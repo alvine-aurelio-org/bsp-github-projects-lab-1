@@ -127,7 +127,8 @@ export function verifyContent() {
       assert.ok(markdown.includes(`**Time: ${lesson.minutes} minutes`));
       assert.ok(markdown.includes(lesson.image), 'Missing per-step screenshot');
       assert.ok(
-        markdown.includes('CONFIRMED') ||
+        lesson.id === '1-0' ||
+          markdown.includes('CONFIRMED') ||
           markdown.includes('VERIFIED') ||
           markdown.includes('MIXED EVIDENCE'),
       );
@@ -138,6 +139,12 @@ export function verifyContent() {
         'Private-copy images need absolute public source URLs',
       );
       assert.ok(rendered.length < 60_000);
+      assert.ok(
+        !/```(?:powershell|bash|sh)\b|\bgit (?:clone|fetch|switch|add|commit|push|remote)\b|\blocal clone\b|\bVS Code\b/i.test(
+          markdown,
+        ),
+        'Participant lessons must be browser-only',
+      );
       assert.deepEqual(validateLinks(markdown, filename), []);
       if (lesson.id === '1-0' || lesson.id === '1-1') {
         assert.ok(

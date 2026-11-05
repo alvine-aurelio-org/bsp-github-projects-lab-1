@@ -15,16 +15,17 @@ A status update explains the delivery situation behind the counts. Its target da
    > **Next action:** verify the published checklist before the target date.
 
    Select **Save update**. This describes fictional delivery risk, not a real BSP service.
-2. Return to **Backlog**, clear any filters and ensure Title, Status, Assignees, Priority, Effort and Sprint are visible. Open its **View** settings → **Export view data**. Save the downloaded **TSV** locally and open it in a spreadsheet or text editor.
-3. Confirm your five issue rows are present in the export and the update is visible in the Project. Do not commit the exported snapshot, screenshots of your account, credentials or other personal data. Close no unfinished task merely to make the chart look complete.
+
+2. Return to **Backlog**, clear filters and ensure Title, Status, Assignees, Priority, Effort and Sprint are visible. Open **View** settings → **Export view data**. Confirm the TSV download appears in your browser's Downloads list. No spreadsheet or text editor is needed.
+3. Check that the unfiltered Backlog shows your five work items and that the update is visible in the Project. Keep the download private; do not attach it or personal screenshots to an issue. Close no unfinished task merely to make the chart look complete.
 
 ![Project and View navigation entry points for the status update and export activity](../../assets/screenshots/lab-3-step-4.png)
 
-*This overview provides navigation context; Add update and Export view data are described in the text rather than shown in an invented dialog. [Image attribution](https://github.com/alvine-aurelio-org/bsp-github-projects-lab-1/blob/main/assets/screenshots/SOURCES.md).*
+_This overview provides navigation context; Add update and Export view data are described in the text rather than shown in an invented dialog. [Image attribution](https://github.com/alvine-aurelio-org/bsp-github-projects-lab-1/blob/main/assets/screenshots/SOURCES.md)._
 
 ## Expected result
 
-A saved At risk update with mitigation and target date; a local TSV matching the unfiltered saved view; the same one repository and one Project you created at the start.
+A saved At risk update with mitigation and target date; a TSV download produced from the unfiltered saved view; the same one repository and one Project you created at the start.
 
 ## Finish with Mona
 

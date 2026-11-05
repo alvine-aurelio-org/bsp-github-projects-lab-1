@@ -12,15 +12,6 @@
       "height": 338,
       "caption": "Use this template → create your PRIVATE copy"
     },
-    "clone": {
-      "path": "originals/repository--https-url-clone-cli.png",
-      "sourcePath": "repository/https-url-clone-cli.png",
-      "sourceUrl": "https://raw.githubusercontent.com/github/docs/4a20c763a48bd4f5a34a84c002fd9858e9793f65/assets/images/help/repository/https-url-clone-cli.png",
-      "sha256": "0393e765ecc8b355c03882816f4e3b3ca5c4e62b4d2f791a66983c04b0dc4423",
-      "width": 926,
-      "height": 694,
-      "caption": "In YOUR copy: Code → HTTPS → copy your clone URL"
-    },
     "profile": {
       "path": "originals/profile--profile-button-avatar-menu-global-nav-update.png",
       "sourcePath": "profile/profile-button-avatar-menu-global-nav-update.png",
@@ -127,7 +118,16 @@
       "sha256": "3e0ccbaaa19c2ee045c904e76d4ff9f4728e89e63708b2a1230120a9efcc64af",
       "width": 1824,
       "height": 162,
-      "caption": "After your push: Compare & pull request"
+      "caption": "After your browser edit: Compare & pull request"
+    },
+    "edit": {
+      "path": "originals/repository--edit-file-edit-button.png",
+      "sourcePath": "repository/edit-file-edit-button.png",
+      "sourceUrl": "https://raw.githubusercontent.com/github/docs/4a20c763a48bd4f5a34a84c002fd9858e9793f65/assets/images/help/repository/edit-file-edit-button.png",
+      "sha256": "694ef02b7f50736e518df67b5389560bd5db92ba599697bb2b729e907b98e3bd",
+      "width": 1406,
+      "height": 448,
+      "caption": "In your work branch: pencil → Edit this file → Commit changes"
     },
     "merge": {
       "path": "originals/pull_requests--merge-pull-request-options.png",
@@ -180,25 +180,16 @@
       "id": "1-0",
       "path": "lab-1-step-0.png",
       "title": "Create your isolated workspace",
-      "panels": [
-        "template",
-        "clone",
-        "profile",
-        "projects",
-        "link"
-      ],
-      "sha256": "d3e072ef2990358e4206a590c6e3b3d3f2cef5343c15ae609b2dd5d156992e82",
+      "panels": ["template", "profile", "projects", "link"],
+      "sha256": "cd9b192fc181e1508eaafa7887a3dea49c98c9f1f5deda5577b5769096cbd2a4",
       "width": 1440,
-      "height": 1612
+      "height": 1070
     },
     {
       "id": "1-1",
       "path": "lab-1-step-1.png",
       "title": "Populate your backlog",
-      "panels": [
-        "add",
-        "convert"
-      ],
+      "panels": ["add", "convert"],
       "sha256": "20688ba6fb50ea0775b95a17fd6f0f6cfe1e4203a24ce1eab08fd809531f0bef",
       "width": 1440,
       "height": 709
@@ -207,10 +198,7 @@
       "id": "1-2",
       "path": "lab-1-step-2.png",
       "title": "Add planning information",
-      "panels": [
-        "field",
-        "table"
-      ],
+      "panels": ["field", "table"],
       "sha256": "8364bc20fe361272ea5ece5557c21921d615c8a1322b40df3fde8636b1f2f7f4",
       "width": 1440,
       "height": 719
@@ -219,10 +207,7 @@
       "id": "1-3",
       "path": "lab-1-step-3.png",
       "title": "Save a delivery board",
-      "panels": [
-        "view",
-        "board"
-      ],
+      "panels": ["view", "board"],
       "sha256": "81da23b5f1035fdbd184d06c9a0c4c028cda490e2074b41d35bd5d4675c62f07",
       "width": 1440,
       "height": 771
@@ -231,10 +216,7 @@
       "id": "2-1",
       "path": "lab-2-step-1.png",
       "title": "Plan your sprint",
-      "panels": [
-        "field",
-        "iteration"
-      ],
+      "panels": ["field", "iteration"],
       "sha256": "eb222fcc2fb0b1a3561c99674fc8e3c57f34a735f66b1a9dd56b59b69731c296",
       "width": 1440,
       "height": 877
@@ -243,9 +225,7 @@
       "id": "2-2",
       "path": "lab-2-step-2.png",
       "title": "Show a native dependency",
-      "panels": [
-        "issue"
-      ],
+      "panels": ["issue"],
       "sha256": "828e5b315acf74ffeec4be660e7f609dfac8236a7e64335cd900a4ce5b762c23",
       "width": 1440,
       "height": 877
@@ -254,22 +234,16 @@
       "id": "2-3",
       "path": "lab-2-step-3.png",
       "title": "Create a linked pull request",
-      "panels": [
-        "issue",
-        "pr"
-      ],
-      "sha256": "e7a92b2dec94922786cc5faea8eb86f9ccb7bf4a6e78391e4a068e4f11350436",
+      "panels": ["issue", "edit", "pr"],
+      "sha256": "127526f3dbcf54687b3153e4690229d6af696e8059feb90eaf9c164a1c6e9238",
       "width": 1440,
-      "height": 877
+      "height": 1162
     },
     {
       "id": "2-4",
       "path": "lab-2-step-4.png",
       "title": "Complete and carry over",
-      "panels": [
-        "merge",
-        "board"
-      ],
+      "panels": ["merge", "board"],
       "sha256": "18719c351bc516334de6b73edce27650b533425ee120f318451e7167173b3fad",
       "width": 1440,
       "height": 866
@@ -278,10 +252,7 @@
       "id": "3-1",
       "path": "lab-3-step-1.png",
       "title": "Create a release roadmap",
-      "panels": [
-        "view",
-        "roadmap"
-      ],
+      "panels": ["view", "roadmap"],
       "sha256": "c233e0b51f3f0567562aae138f26934ff60f48906d6b4ac6918c57f35b6e546d",
       "width": 1440,
       "height": 620
@@ -290,10 +261,7 @@
       "id": "3-2",
       "path": "lab-3-step-2.png",
       "title": "Inspect workload",
-      "panels": [
-        "view",
-        "table"
-      ],
+      "panels": ["view", "table"],
       "sha256": "b50f9de90c1f717c753c8036924e62a2d7aee8c40092acb9f68749913de30dfa",
       "width": 1440,
       "height": 688
@@ -302,10 +270,7 @@
       "id": "3-3",
       "path": "lab-3-step-3.png",
       "title": "Read a progress chart",
-      "panels": [
-        "insights",
-        "chart"
-      ],
+      "panels": ["insights", "chart"],
       "sha256": "f245eb90bf4f9fc0b4e74f27ac5ea6153d70ca9fccb25f2be5e3649704b54b63",
       "width": 1440,
       "height": 815
@@ -314,10 +279,7 @@
       "id": "3-4",
       "path": "lab-3-step-4.png",
       "title": "Publish a delivery update",
-      "panels": [
-        "details",
-        "view"
-      ],
+      "panels": ["details", "view"],
       "sha256": "8f0628794526d3372f4437e866d845e5b0e5f156d707b5c5cdc8be7a240be47d",
       "width": 1440,
       "height": 620

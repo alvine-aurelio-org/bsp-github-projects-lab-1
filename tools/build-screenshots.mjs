@@ -10,39 +10,107 @@ const out = join(root, 'assets', 'screenshots');
 const sourceCommit = '4a20c763a48bd4f5a34a84c002fd9858e9793f65';
 const sourceBase = `https://raw.githubusercontent.com/github/docs/${sourceCommit}/assets/images/help/`;
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
-const escape = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const escape = (text) =>
+  String(text).replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[
+        c
+      ],
+  );
 
 // Every panel is a genuine upstream screenshot, never a reconstructed interface.
 const panels = {
-  template: ['repository/use-this-template-button.png', 'Use this template → create your PRIVATE copy'],
-  clone: ['repository/https-url-clone-cli.png', 'In YOUR copy: Code → HTTPS → copy your clone URL'],
-  profile: ['profile/profile-button-avatar-menu-global-nav-update.png', 'Your profile → Projects (create a private Project)'],
-  projects: ['projects-v2/tab-projects.png', 'Projects tab → New project (next control is not pictured)'],
-  link: ['projects-v2/repo-tab.png', 'Your repository → Projects → Link a project'],
-  add: ['projects-v2/add-item.png', 'Project bottom row: Add item → paste YOUR issue URL'],
-  convert: ['projects-v2/item-context-menu-button-table.png', 'Open the draft row menu → Convert to issue'],
-  field: ['projects-v2/new-field-button.png', 'Rightmost column header + → New field'],
-  table: ['projects/priority-example.png', 'A real table: edit fields here; use the exercise values'],
-  view: ['projects-v2/new-view.png', 'New view → select the layout; save your changes'],
-  board: ['projects-v2/example-board.png', 'Board columns show Status; move YOUR implementation card'],
-  iteration: ['projects-v2/add-iteration-options.png', 'Iteration settings; creation and assignment are described in the text'],
-  issue: ['issues/create-a-branch.png', 'Real issue sidebar orientation: use YOUR issue, not this example'],
-  pr: ['pull_requests/pull-request-compare-pull-request.png', 'After your push: Compare & pull request'],
-  merge: ['pull_requests/merge-pull-request-options.png', 'Inspect files/checks → Merge pull request → confirm'],
-  roadmap: ['projects-v2/roadmap-menu-dates.png', 'Roadmap → Date fields → map Start date and Target date'],
-  insights: ['projects-v2/insights-button.png', 'Project top-right graph icon → Insights'],
-  details: ['projects-v2/insights-button.png', 'Project details: use the side-panel icon RIGHT of the highlighted graph'],
-  chart: ['issues/column-chart-example.png', 'Example OUTPUT only; configure YOUR chart by Status'],
+  template: [
+    'repository/use-this-template-button.png',
+    'Use this template → create your PRIVATE copy',
+  ],
+  profile: [
+    'profile/profile-button-avatar-menu-global-nav-update.png',
+    'Your profile → Projects (create a private Project)',
+  ],
+  projects: [
+    'projects-v2/tab-projects.png',
+    'Projects tab → New project (next control is not pictured)',
+  ],
+  link: [
+    'projects-v2/repo-tab.png',
+    'Your repository → Projects → Link a project',
+  ],
+  add: [
+    'projects-v2/add-item.png',
+    'Project bottom row: Add item → paste YOUR issue URL',
+  ],
+  convert: [
+    'projects-v2/item-context-menu-button-table.png',
+    'Open the draft row menu → Convert to issue',
+  ],
+  field: [
+    'projects-v2/new-field-button.png',
+    'Rightmost column header + → New field',
+  ],
+  table: [
+    'projects/priority-example.png',
+    'A real table: edit fields here; use the exercise values',
+  ],
+  view: [
+    'projects-v2/new-view.png',
+    'New view → select the layout; save your changes',
+  ],
+  board: [
+    'projects-v2/example-board.png',
+    'Board columns show Status; move YOUR implementation card',
+  ],
+  iteration: [
+    'projects-v2/add-iteration-options.png',
+    'Iteration settings; creation and assignment are described in the text',
+  ],
+  issue: [
+    'issues/create-a-branch.png',
+    'Real issue sidebar orientation: use YOUR issue, not this example',
+  ],
+  pr: [
+    'pull_requests/pull-request-compare-pull-request.png',
+    'After your browser edit: Compare & pull request',
+  ],
+  edit: [
+    'repository/edit-file-edit-button.png',
+    'In your work branch: pencil → Edit this file → Commit changes',
+  ],
+  merge: [
+    'pull_requests/merge-pull-request-options.png',
+    'Inspect files/checks → Merge pull request → confirm',
+  ],
+  roadmap: [
+    'projects-v2/roadmap-menu-dates.png',
+    'Roadmap → Date fields → map Start date and Target date',
+  ],
+  insights: [
+    'projects-v2/insights-button.png',
+    'Project top-right graph icon → Insights',
+  ],
+  details: [
+    'projects-v2/insights-button.png',
+    'Project details: use the side-panel icon RIGHT of the highlighted graph',
+  ],
+  chart: [
+    'issues/column-chart-example.png',
+    'Example OUTPUT only; configure YOUR chart by Status',
+  ],
 };
 
 const sheets = [
-  ['1-0', 'Create your isolated workspace', ['template', 'clone', 'profile', 'projects', 'link']],
+  [
+    '1-0',
+    'Create your isolated workspace',
+    ['template', 'profile', 'projects', 'link'],
+  ],
   ['1-1', 'Populate your backlog', ['add', 'convert']],
   ['1-2', 'Add planning information', ['field', 'table']],
   ['1-3', 'Save a delivery board', ['view', 'board']],
   ['2-1', 'Plan your sprint', ['field', 'iteration']],
   ['2-2', 'Show a native dependency', ['issue']],
-  ['2-3', 'Create a linked pull request', ['issue', 'pr']],
+  ['2-3', 'Create a linked pull request', ['issue', 'edit', 'pr']],
   ['2-4', 'Complete and carry over', ['merge', 'board']],
   ['3-1', 'Create a release roadmap', ['view', 'roadmap']],
   ['3-2', 'Inspect workload', ['view', 'table']],
@@ -58,34 +126,70 @@ for (const [key, [path, caption]] of Object.entries(panels)) {
   let bytes;
   if (existsSync(destination)) bytes = await readFile(destination);
   else {
-    const response = await fetch(sourceBase + path, { signal: AbortSignal.timeout(30_000) });
-    if (!response.ok) throw new Error(`Screenshot source failed (${response.status}): ${path}`);
+    const response = await fetch(sourceBase + path, {
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (!response.ok)
+      throw new Error(`Screenshot source failed (${response.status}): ${path}`);
     bytes = Buffer.from(await response.arrayBuffer());
-    if (!bytes.subarray(0, 8).equals(Buffer.from('89504e470d0a1a0a', 'hex'))) throw new Error(`Not a PNG: ${path}`);
+    if (!bytes.subarray(0, 8).equals(Buffer.from('89504e470d0a1a0a', 'hex')))
+      throw new Error(`Not a PNG: ${path}`);
     await writeFile(destination, bytes, { flag: 'wx' });
   }
-  if (!bytes.subarray(0, 8).equals(Buffer.from('89504e470d0a1a0a', 'hex'))) throw new Error(`Invalid stored PNG: ${path}`);
+  if (!bytes.subarray(0, 8).equals(Buffer.from('89504e470d0a1a0a', 'hex')))
+    throw new Error(`Invalid stored PNG: ${path}`);
   originals[key] = {
-    path: `originals/${filename}`, sourcePath: path, sourceUrl: sourceBase + path,
-    sha256: hash(bytes), width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20), caption,
+    path: `originals/${filename}`,
+    sourcePath: path,
+    sourceUrl: sourceBase + path,
+    sha256: hash(bytes),
+    width: bytes.readUInt32BE(16),
+    height: bytes.readUInt32BE(20),
+    caption,
     data: bytes.toString('base64'),
   };
 }
 
 const candidates = [
   process.env.SCREENSHOT_BROWSER_PATH,
-  process.env['ProgramFiles(x86)'] && join(process.env['ProgramFiles(x86)'], 'Microsoft', 'Edge', 'Application', 'msedge.exe'),
-  process.env.ProgramFiles && join(process.env.ProgramFiles, 'Google', 'Chrome', 'Application', 'chrome.exe'),
+  process.env['ProgramFiles(x86)'] &&
+    join(
+      process.env['ProgramFiles(x86)'],
+      'Microsoft',
+      'Edge',
+      'Application',
+      'msedge.exe',
+    ),
+  process.env.ProgramFiles &&
+    join(
+      process.env.ProgramFiles,
+      'Google',
+      'Chrome',
+      'Application',
+      'chrome.exe',
+    ),
 ].filter(Boolean);
 const executablePath = candidates.find(existsSync);
-const browser = await chromium.launch({ headless: true, ...(executablePath ? { executablePath } : {}) });
-const manifest = { schemaVersion: 1, sourceCommit, license: 'CC-BY-4.0', originals: {}, sheets: [] };
+const browser = await chromium.launch({
+  headless: true,
+  ...(executablePath ? { executablePath } : {}),
+});
+const manifest = {
+  schemaVersion: 1,
+  sourceCommit,
+  license: 'CC-BY-4.0',
+  originals: {},
+  sheets: [],
+};
 for (const [key, value] of Object.entries(originals)) {
   const { data: _data, ...metadata } = value;
   manifest.originals[key] = metadata;
 }
 try {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 1000 },
+    deviceScaleFactor: 1,
+  });
   for (const [id, title, keys] of sheets) {
     const filename = `lab-${id[0]}-step-${id[2]}.png`;
     const html = `<!doctype html><html lang="en"><meta charset="utf-8"><title>${escape(title)}</title>
@@ -102,31 +206,72 @@ try {
       .note{padding:14px 18px;background:#fff8c5;border-radius:8px;margin-top:20px;font-size:16px}</style>
       <main><header><small>GITHUB PROJECTS · LAB ${id[0]} · STEP ${id[2]}</small><h1>${escape(title)}</h1>
       <p>Real GitHub Docs screenshots · numbered navigation overview · work only in your own private copy</p></header>
-      <div class="grid">${keys.map((key, index) => `<figure><figcaption><span class="badge">${index + 1}</span>${escape(originals[key].caption)}</figcaption>
-      <div class="picture"><img alt="${escape(originals[key].caption)}" src="data:image/png;base64,${originals[key].data}"></div></figure>`).join('')}</div>
+      <div class="grid">${keys
+        .map(
+          (
+            key,
+            index,
+          ) => `<figure><figcaption><span class="badge">${index + 1}</span>${escape(originals[key].caption)}</figcaption>
+      <div class="picture"><img alt="${escape(originals[key].caption)}" src="data:image/png;base64,${originals[key].data}"></div></figure>`,
+        )
+        .join('')}</div>
       <p class="note">Follow the lesson text for exact values and expanded menus. An entry-point screenshot is not a picture of every subsequent dialog.</p>
       <footer>Source screenshots © GitHub, Inc. and contributors · GitHub Docs · CC BY 4.0 · resized, composed and captioned for this workshop.<br>
       Source commit ${sourceCommit.slice(0, 12)} · Full source URLs and changes: assets/screenshots/SOURCES.md · No endorsement implied.</footer></main></html>`;
     await page.setContent(html, { waitUntil: 'load' });
-    const image = await page.locator('main').screenshot({ path: join(out, filename), animations: 'disabled' });
-    manifest.sheets.push({ id, path: filename, title, panels: keys, sha256: hash(image), width: image.readUInt32BE(16), height: image.readUInt32BE(20) });
+    const image = await page
+      .locator('main')
+      .screenshot({ path: join(out, filename), animations: 'disabled' });
+    manifest.sheets.push({
+      id,
+      path: filename,
+      title,
+      panels: keys,
+      sha256: hash(image),
+      width: image.readUInt32BE(16),
+      height: image.readUInt32BE(20),
+    });
   }
 } finally {
   await browser.close();
 }
-await writeFile(join(out, 'screenshots.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+await writeFile(
+  join(out, 'screenshots.json'),
+  `${JSON.stringify(manifest, null, 2)}\n`,
+);
 
 // Generated binary assets and their attribution metadata are packaged into the
 // two companions. No source guide or runtime file is edited by this builder.
 for (const lab of [2, 3]) {
-  const destination = resolve(root, '..', `bsp-github-projects-lab-${lab}`, 'assets', 'screenshots');
+  const destination = resolve(
+    root,
+    '..',
+    `bsp-github-projects-lab-${lab}`,
+    'assets',
+    'screenshots',
+  );
   await mkdir(join(destination, 'originals'), { recursive: true });
-  const selected = manifest.sheets.filter((sheet) => sheet.id.startsWith(`${lab}-`));
+  const selected = manifest.sheets.filter((sheet) =>
+    sheet.id.startsWith(`${lab}-`),
+  );
   const keys = new Set(selected.flatMap((sheet) => sheet.panels));
-  for (const sheet of selected) await copyFile(join(out, sheet.path), join(destination, sheet.path));
-  for (const key of keys) await copyFile(join(out, originals[key].path), join(destination, originals[key].path));
+  for (const sheet of selected)
+    await copyFile(join(out, sheet.path), join(destination, sheet.path));
+  for (const key of keys)
+    await copyFile(
+      join(out, originals[key].path),
+      join(destination, originals[key].path),
+    );
   await copyFile(join(out, 'SOURCES.md'), join(destination, 'SOURCES.md'));
-  await writeFile(join(destination, 'screenshots.json'), `${JSON.stringify({ ...manifest, originals: Object.fromEntries([...keys].map((key) => [key, manifest.originals[key]])), sheets: selected }, null, 2)}\n`);
-  await copyFile(join(root, 'THIRD-PARTY-NOTICES.md'), resolve(destination, '..', '..', 'THIRD-PARTY-NOTICES.md'));
+  await writeFile(
+    join(destination, 'screenshots.json'),
+    `${JSON.stringify({ ...manifest, originals: Object.fromEntries([...keys].map((key) => [key, manifest.originals[key]])), sheets: selected }, null, 2)}\n`,
+  );
+  await copyFile(
+    join(root, 'THIRD-PARTY-NOTICES.md'),
+    resolve(destination, '..', '..', 'THIRD-PARTY-NOTICES.md'),
+  );
 }
-console.log(`Built ${manifest.sheets.length} genuine-source navigation sheets; packaged 4 per companion. No authenticated learner UI or Project API was used.`);
+console.log(
+  `Built ${manifest.sheets.length} genuine-source navigation sheets; packaged 4 per companion. No authenticated learner UI or Project API was used.`,
+);

@@ -86,9 +86,12 @@ test('complete twelve-step synthetic flow records honest evidence and closes onl
   for (const lesson of WORKSHOP.lessons) {
     assert.equal(h.api.messages(`lesson:${lesson.id}`).length, 1);
     assert.equal(h.api.messages(`feedback:${lesson.id}`).length, 1);
-    assert.match(
-      h.api.messages(`lesson:${lesson.id}`)[0].body,
-      /Project UI: SELF-CONFIRMED/,
+    assert.ok(
+      !h.api
+        .messages(`lesson:${lesson.id}`)[0]
+        .body.includes(
+          '**Project UI: SELF-CONFIRMED.** Mona never calls the Projects API.',
+        ),
     );
     assert.ok(state.evidence[lesson.id].feedback.length > 10);
   }
