@@ -9,7 +9,7 @@ Your repository stores instructions, issues and pull requests. Your Project is a
 ## Do
 
 1. If reading the public guide, choose **Use this template → Create a new repository** on [the Lab 1 starter](https://github.com/alvine-aurelio-org/bsp-github-projects-lab-1/generate). Select **your own account**, name it `my-projects-workshop`, select **Private**, leave **Include all branches** off and create it. If Mona posted this in your private copy, this part is already done: **do not create another repository**.
-2. Open **Issues → Mona's GitHub Projects workshop — start here** in your copy. Mona creates four fictional sample issues and this exercise automatically. If it has not appeared, open **Actions → Mona — guided workshop → Run workflow → main** once. Actions and Issues must be enabled. Do not fork the template or work in the public source repository.
+2. Open **Issues → Mona's GitHub Projects workshop — start here** in your copy. **Mona creates only this one issue.** Every step and its feedback is posted as comments in this same thread after you complete the current step. No sample work issues are created automatically. If the thread has not appeared, open **Actions → Mona — guided workshop → Run workflow → main** once. Actions and Issues must be enabled. Do not fork the template or work in the public source repository.
 3. In **your copy**, select **Code → HTTPS → copy URL**. Open a terminal in your preferred local parent folder and clone that URL. In a rendered Mona comment the first command below already points to your copy. In the static guide, replace the placeholders using the URL you just copied.
 
 ```powershell
@@ -28,13 +28,13 @@ Both `origin` lines must name **your account and your private copy**, not alvine
 
 ![Real GitHub navigation for template copying, cloning, profile Projects and linking a Project](../../assets/screenshots/lab-1-step-0.png)
 
-*The annotated overview uses real GitHub Docs screenshots; numbered captions identify entry points, not unshown dialogs. [Image attribution](https://github.com/alvine-aurelio-org/bsp-github-projects-lab-1/blob/main/assets/screenshots/SOURCES.md).*
+_The annotated overview uses real GitHub Docs screenshots; numbered captions identify entry points, not unshown dialogs. [Image attribution](https://github.com/alvine-aurelio-org/bsp-github-projects-lab-1/blob/main/assets/screenshots/SOURCES.md)._
 
 ## Expected result
 
 - One private repository under your account, with a local clone pointing to it.
 - One private Project under the same account, linked from the repository's Projects tab.
-- Mona's exercise issue and four sample issues exist in your private repository.
+- Exactly one automatically created issue exists: Mona's start-here thread. You will create work items yourself when Step 1 asks; those are your backlog, not additional lesson threads.
 
 ## Tell Mona
 
