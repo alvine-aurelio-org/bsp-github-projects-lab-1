@@ -105,10 +105,12 @@ test('actual lesson comments retain the manual-rehearsal controls and stop condi
     ],
     'lessons/lab-1/02-fields.md': [
       'Add field',
+      'Add issue fields \u2192 Create a project field',
       'Create a project field',
       'duplicate fields',
     ],
     'lessons/lab-2/01-sprint.md': [
+      'Add issue fields \u2192 Create a project field',
       'Starts on',
       'seven days',
       'displayed start/end dates',
@@ -132,6 +134,7 @@ test('actual lesson comments retain the manual-rehearsal controls and stop condi
       'Do not recreate or reopen the PR',
     ],
     'lessons/lab-3/01-roadmap.md': [
+      'Add issue fields \u2192 Create a project field',
       'actual Sprint 1 and Sprint 2 start/end dates',
       'clear inherited filters',
       'Dates: Start date and Target date',
@@ -144,7 +147,8 @@ test('actual lesson comments retain the manual-rehearsal controls and stop condi
     ],
     'lessons/lab-3/04-update.md': [
       'all five work-issue rows',
-      "confirmation dialog's row count",
+      'Count the loaded Backlog rows',
+      'Do not expect a numeric row count in the export dialog',
       'select Export in that dialog',
       'completed TSV download',
       'do not submit /done 3-4',
@@ -156,5 +160,12 @@ test('actual lesson comments retain the manual-rehearsal controls and stop condi
       const source = readFileSync(resolve(file), 'utf8').replace(/[*`]/g, '');
       for (const text of required)
         assert.ok(source.includes(text), `Missing manual-run guidance: ${text}`);
+      if (file === 'lessons/lab-3/04-update.md') {
+        assert.ok(
+          source.indexOf('Count the loaded Backlog rows') < source.indexOf('Export view data'),
+          'Count loaded rows before opening the export dialog',
+        );
+        assert.doesNotMatch(source, /check the confirmation dialog's row count/i);
+      }
     });
 });

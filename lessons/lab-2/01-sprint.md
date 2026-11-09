@@ -8,7 +8,7 @@ An iteration field assigns work to a timebox. It is different from a repository 
 
 ## Do
 
-1. Open [the same Project]({{PROJECT_URL}}) → Backlog. Select the rightmost **+ (Add field) → Add field** (sometimes **New field**), name **Sprint**, type **Iteration**. Set **Starts on** to today or your agreed sprint start this week, and explicitly choose a **one-week** duration. Do not assume the default starts on Monday or lasts one week.
+1. Open [the same Project]({{PROJECT_URL}}) → Backlog. Select the rightmost **+ (Add field)**, then **Add issue fields → Create a project field** (older layouts may offer **New field** directly). Name **Sprint**, type **Iteration**. Set **Starts on** to today or your agreed sprint start this week, and explicitly choose a **one-week** duration. Do not assume the default starts on Monday or lasts one week.
 2. In Project **… → Settings → Sprint**, rename the first two iterations **Sprint 1** and **Sprint 2**. Read their displayed start/end dates: each covers seven days, and Sprint 2 starts the day after Sprint 1 ends. Create the second iteration if necessary. Reuse an existing correctly configured Sprint field; do not copy dates from a screenshot or add a second Sprint field. Return to Backlog.
 3. Set only implementation #{{ISSUE_implementation}} and verification #{{ISSUE_verification}} to **Sprint 1**. In the view settings, choose **Group by → Sprint** and **Field sum → Effort**. This menu is multi-select: clear **Count** if selected so you read the effort total rather than the number of items. **Save** the view. Check the Sprint 1 group shows **Effort 5** (3 + 2), not Count 2; effort is not available working hours.
 
