@@ -9,7 +9,7 @@ Grouping by Assignees reveals who owns work and which tasks are unassigned. Summ
 ## Do
 
 1. Create a **Table** view named **Workload**. Clear inherited filters, then filter to **open** issues using `is:open`; completed implementation should not appear in this view.
-2. Open the **View** settings beside the search bar → **Group by → Assignees**. Show Effort and Sprint. Set **Field sum → Effort** (the wording may be **Sum of**). Save the view.
+2. Open the **View** settings beside the search bar → **Group by → Assignees**. Show Effort and Sprint. Set **Field sum → Effort** (the wording may be **Sum of**). This menu is multi-select: clear **Count** if selected so the displayed total is effort, not the number of items. Save the view.
 3. Find verification #{{ISSUE_verification}} in the unassigned group with Effort **2**. Assign it to yourself and observe it move to your group. No other participant or instructor is needed. Leave its Sprint 2 assignment unchanged.
 
 ![A real Project table and New view entry point, used to orient the Workload grouping activity](../../assets/screenshots/lab-3-step-2.png)

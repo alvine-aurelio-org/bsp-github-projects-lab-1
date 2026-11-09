@@ -4,11 +4,29 @@ import {
   repositoryParts,
   requireSafe,
   same,
+  timestamp,
 } from './mona-core.mjs';
 
 const ORIGIN = 'https://api.github.com';
 const PAGE_SIZE = 100;
 const MAX_RESPONSE_BYTES = 8 * 1024 * 1024;
+const SHA = /^[a-f\d]{40}$/i;
+const MERGE_QUERY = `query MonaMergeCommit($owner: String!, $name: String!, $number: Int!) {
+  repository(owner: $owner, name: $name) {
+    nameWithOwner
+    pullRequest(number: $number) {
+      number
+      id
+      state
+      merged
+      mergedAt
+      headRefName
+      headRefOid
+      baseRefName
+      mergeCommit { oid }
+    }
+  }
+}`;
 const CLOSING_QUERY = `query MonaClosingIssues($owner: String!, $name: String!, $number: Int!, $after: String) {
   repository(owner: $owner, name: $name) {
     nameWithOwner
@@ -230,7 +248,54 @@ export function createGitHubClient({
     // Official native relationship route, not a body-text or Project field test.
     listBlockedBy: (number) =>
       list(`/issues/${integer(number)}/dependencies/blocked_by`),
-    getPullRequest: (number) => get(`/pulls/${integer(number)}`),
+    getPullRequest: async (number) => {
+      const pr = await get(`/pulls/${integer(number)}`);
+      if (
+        !positive(pr?.id) ||
+        pr.number !== number ||
+        typeof pr.merged !== 'boolean'
+      )
+        throw incomplete();
+      // REST 2026-03-10 removed merge_commit_sha. Retain the engines' internal
+      // alias, but derive it only from this PR's native GraphQL mergeCommit.
+      // An open PR's synthetic test-merge commit is never delivery evidence.
+      let mergeSha = null;
+      if (pr.merged) {
+        const { data } = await request('/graphql', 'POST', {
+          query: MERGE_QUERY,
+          variables: { owner, name, number },
+        });
+        if (
+          Object.hasOwn(data, 'errors') &&
+          (!Array.isArray(data.errors) || data.errors.length)
+        )
+          throw incomplete();
+        const repo = data.data?.repository;
+        const native = repo?.pullRequest;
+        if (
+          !same(repo?.nameWithOwner, repository) ||
+          native?.number !== number ||
+          typeof pr.node_id !== 'string' ||
+          pr.node_id.length === 0 ||
+          native.id !== pr.node_id ||
+          native.state !== 'MERGED' ||
+          native.merged !== true ||
+          pr.state !== 'closed' ||
+          !timestamp(pr.merged_at) ||
+          native.mergedAt !== pr.merged_at ||
+          !SHA.test(pr.head?.sha ?? '') ||
+          native.headRefOid !== pr.head.sha ||
+          typeof pr.head.ref !== 'string' ||
+          native.headRefName !== pr.head.ref ||
+          typeof pr.base?.ref !== 'string' ||
+          native.baseRefName !== pr.base.ref ||
+          !SHA.test(native.mergeCommit?.oid ?? '')
+        )
+          throw incomplete();
+        mergeSha = native.mergeCommit.oid;
+      }
+      return { ...pr, merge_commit_sha: mergeSha };
+    },
     listPullRequestFiles: (number) =>
       list(`/pulls/${integer(number)}/files`, {}, (file) => file?.filename),
     readRepositoryFile: async (file, ref) => {

@@ -16,8 +16,10 @@ A status update explains the delivery situation behind the counts. Its target da
 
    Select **Save update**. This describes fictional delivery risk, not a real BSP service.
 
-2. Return to **Backlog**, clear filters and ensure Title, Status, Assignees, Priority, Effort and Sprint are visible. Open **View** settings → **Export view data**. Confirm the TSV download appears in your browser's Downloads list. No spreadsheet or text editor is needed.
-3. Check that the unfiltered Backlog shows your five work items and that the update is visible in the Project. Keep the download private; do not attach it or personal screenshots to an issue. Close no unfinished task merely to make the chart look complete.
+2. Return to **Backlog**, clear filters and ensure Title, Status, Assignees, Priority, Effort and Sprint are visible. Confirm all **five work-issue rows** are loaded, including closed implementation; do not export the filtered Workload view or add Mona's issue. Save any view changes. Open **View** settings → **Export view data**, check the confirmation dialog's row count, then select **Export** in that dialog. Opening the dialog alone does not download the TSV.
+3. Open your browser's own **Downloads** panel and confirm a **completed TSV download** from this export, not a pending, blocked or cancelled entry. No spreadsheet or text editor is needed. Confirm the saved update is visible in the Project. Keep the download private; do not commit, upload or attach it or personal screenshots. Close no unfinished task merely to make the chart look complete.
+
+**If the download is missing:** bring the GitHub Project tab to the foreground, check the browser's download notice and Downloads panel, and retry the export only if no completed file exists. Respect managed download restrictions. If downloading remains unavailable or cannot be confirmed, leave this activity incomplete and **do not submit `/done 3-4`**. A saved update or a closed export dialog is not download evidence.
 
 ![Project and View navigation entry points for the status update and export activity](../../assets/screenshots/lab-3-step-4.png)
 

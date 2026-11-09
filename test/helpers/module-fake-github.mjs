@@ -430,6 +430,7 @@ export class ModuleFakeGitHub {
     };
     this.pr = {
       id: 900031,
+      node_id: 'PR_synthetic_900031',
       number: 31,
       state: 'open',
       merged: false,
@@ -547,10 +548,10 @@ export function moduleFakeFetch(api, requests = []) {
     const body = options.body ? JSON.parse(options.body) : null;
     let data;
     if (target.pathname === '/graphql') {
-      const refs = await api.getClosingIssues(
-        body.variables.number,
-        api.pr.head.sha,
-      );
+      const mergeQuery = body.query.includes('query MonaMergeCommit(');
+      const refs = mergeQuery
+        ? null
+        : await api.getClosingIssues(body.variables.number, api.pr.head.sha);
       data = {
         data: {
           repository: {
@@ -558,11 +559,25 @@ export function moduleFakeFetch(api, requests = []) {
             pullRequest: {
               number: api.pr.number,
               headRefOid: api.pr.head.sha,
-              closingIssuesReferences: {
-                totalCount: refs.length,
-                nodes: refs,
-                pageInfo: { hasNextPage: false, endCursor: null },
-              },
+              ...(mergeQuery
+                ? {
+                  id: api.pr.node_id,
+                    state: api.pr.merged ? 'MERGED' : 'OPEN',
+                    merged: api.pr.merged,
+                    mergedAt: api.pr.merged_at,
+                    headRefName: api.pr.head.ref,
+                    baseRefName: api.pr.base.ref,
+                    mergeCommit: api.pr.merged
+                      ? { oid: api.pr.merge_commit_sha }
+                      : null,
+                  }
+                : {
+                    closingIssuesReferences: {
+                      totalCount: refs.length,
+                      nodes: refs,
+                      pageInfo: { hasNextPage: false, endCursor: null },
+                    },
+                  }),
             },
           },
         },
@@ -595,16 +610,19 @@ export function moduleFakeFetch(api, requests = []) {
               : await api.updateExercise(Number(match[1]), body.body);
       else if ((match = /^\/pulls\/(\d+)\/files$/.exec(path)))
         data = await api.listPullRequestFiles(Number(match[1]));
-      else if ((match = /^\/pulls\/(\d+)$/.exec(path)))
+      else if ((match = /^\/pulls\/(\d+)$/.exec(path))) {
         data = await api.getPullRequest(Number(match[1]));
-      else if (path === '/contents/work/release-checklist.md') {
+        // Match the native 2026-03-10 payload, not the engines' internal alias.
+        delete data.merge_commit_sha;
+      } else if (path === '/contents/work/release-checklist.md') {
+        const workFile = 'work/release-checklist.md';
         const content = await api.readRepositoryFile(
-          api.module.workFile,
+          workFile,
           target.searchParams.get('ref'),
         );
         data = {
           type: 'file',
-          path: api.module.workFile,
+          path: workFile,
           encoding: 'base64',
           size: Buffer.byteLength(content),
           content: Buffer.from(content).toString('base64'),

@@ -26,6 +26,8 @@ Use a personal account only if your organization's policy permits. Enterprise Ma
 
 Mona's Step 0 shows you how to **create and link your private Project** using the website. Then open the Project, copy the URL from your browser's address bar and paste only that link as a new comment in Mona's issue. No command or link editing is needed. The repository and Project must have the same owner. Do not invite other learners.
 
+If the private repository belongs to an approved organization, create the Project from **that organization's Projects tab**, not your personal profile. Keep the Project open in one browser tab and Mona's issue in another; return to Mona only after checking the step's expected result.
+
 ![GitHub browser navigation for creating your private copy and locating Projects](assets/screenshots/lab-1-step-0.png)
 
 ## Lab 1 — 40 minutes
@@ -63,7 +65,10 @@ Only the learner who starts the exercise can progress it. Post commands as **new
 
 - **No Mona:** check the Actions run, Issues setting, private visibility and default branch `main`; rerun the Mona workflow. A public copy is deliberately not initialized. These commands do not configure organization-wide permissions.
 - **A check failed:** leave the PR open until Step 2-3 passes. Use the right issue/PR numbers and exact branch/file. Do not commit unrelated files or change the checked PR head after it passes.
+- **Actions says repository evidence could not be read:** this is a checker/API read failure, not proof your work is wrong. Open that failed Mona run → **Re-run jobs → Re-run failed jobs** once. If it fails again, stop and give the maintainer the run URL and exact error. Keep the same issues, branch and PR; do not reset progress, recreate the PR or add an access token. A PR already shown as **Merged** must stay merged, even if Mona cannot confirm it. Existing private copies do not automatically receive source-template fixes.
 - **File edit went to the wrong branch:** use GitHub's branch menu before clicking the pencil button. The PR exercise uses **workshop/release-checklist**, not main.
+- **A field control has a different label:** the rightmost table **+ (Add field)** may open an **Add field** menu before **Create a project field**; older layouts say **New field**. Use **Number** for Effort, **Iteration** for Sprint and **Date** for dates. Read your actual Sprint start/end dates rather than copying screenshot dates. **Field sum** is multi-select: choose Effort and clear Count if you want only the effort total.
+- **The TSV is not in Downloads:** **Export view data** first opens a confirmation dialog; select **Export** there. Check the browser's own Downloads panel for a completed download, not just the open export dialog. If it is blocked, cancelled or absent, keep Step 3-4 incomplete; do not upload a substitute or submit its completion command.
 - **Organization requires PR approval:** respect it. The no-instructor path assumes a private personal sandbox that does not require independent review. This lab never teaches self-approval or disabling protections.
 - **Feature missing:** do not self-confirm an activity you could not perform. Check account entitlements/policies. The course does not award an API error or missing feature as a pass.
 - **An older copy has five bot-created issues:** that was the v1 bootstrap. A template update does not alter existing copies. Start a new private copy from this updated template for the single-issue flow; do not merge v2 over active v1 progress or delete its saved state. The runtime fails closed rather than silently resetting or creating a second instruction thread. No automatic migration or cleanup of learner work is performed.

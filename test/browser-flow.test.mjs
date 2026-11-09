@@ -95,3 +95,66 @@ test('the first actual lesson asks for only the link and contains no local-tool 
     'Plain URL comments must reach the workflow',
   );
 });
+
+test('actual lesson comments retain the manual-rehearsal controls and stop conditions', async (t) => {
+  const cases = {
+    'lessons/lab-1/00-workspace.md': [
+      "that organization's Projects tab",
+      'same owner',
+      'separate browser tabs',
+    ],
+    'lessons/lab-1/02-fields.md': [
+      'Add field',
+      'Create a project field',
+      'duplicate fields',
+    ],
+    'lessons/lab-2/01-sprint.md': [
+      'Starts on',
+      'seven days',
+      'displayed start/end dates',
+      'multi-select',
+      'clear Count',
+      'Effort 5',
+    ],
+    'lessons/lab-2/03-pull-request.md': [
+      'Preview changes',
+      'one removed line and one added line',
+      'second still unchecked',
+      "Green quality checks do not replace Mona's Step 2-3 pass",
+      'Re-run jobs',
+      'run URL and exact error',
+      'Keep this PR open',
+    ],
+    'lessons/lab-2/04-complete.md': [
+      'enable it only if it is Off',
+      'already shows Merged',
+      'preserve that merge',
+      'Do not recreate or reopen the PR',
+    ],
+    'lessons/lab-3/01-roadmap.md': [
+      'actual Sprint 1 and Sprint 2 start/end dates',
+      'clear inherited filters',
+      'Dates: Start date and Target date',
+      'Date fields',
+    ],
+    'lessons/lab-3/02-workload.md': [
+      'is:open',
+      'multi-select',
+      'clear Count',
+    ],
+    'lessons/lab-3/04-update.md': [
+      'all five work-issue rows',
+      "confirmation dialog's row count",
+      'select Export in that dialog',
+      'completed TSV download',
+      'do not submit /done 3-4',
+      'do not commit, upload or attach',
+    ],
+  };
+  for (const [file, required] of Object.entries(cases))
+    await t.test(file, () => {
+      const source = readFileSync(resolve(file), 'utf8').replace(/[*`]/g, '');
+      for (const text of required)
+        assert.ok(source.includes(text), `Missing manual-run guidance: ${text}`);
+    });
+});

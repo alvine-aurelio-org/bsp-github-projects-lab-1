@@ -8,9 +8,9 @@ An iteration field assigns work to a timebox. It is different from a repository 
 
 ## Do
 
-1. Open [the same Project]({{PROJECT_URL}}) → Backlog. Use **+ → New field**, name **Sprint**, type **Iteration**. Start the first iteration this week and use a one-week duration.
-2. In Project **… → Settings → Sprint**, rename the first two iterations **Sprint 1** and **Sprint 2**, keeping different consecutive start dates. Create the second iteration if necessary. Return to Backlog.
-3. Set implementation #{{ISSUE_implementation}} and verification #{{ISSUE_verification}} to **Sprint 1**. In the view settings, group by **Sprint** and choose the **Effort** field sum. Save the view. Their combined effort is **5**, not a measure of available working hours.
+1. Open [the same Project]({{PROJECT_URL}}) → Backlog. Select the rightmost **+ (Add field) → Add field** (sometimes **New field**), name **Sprint**, type **Iteration**. Set **Starts on** to today or your agreed sprint start this week, and explicitly choose a **one-week** duration. Do not assume the default starts on Monday or lasts one week.
+2. In Project **… → Settings → Sprint**, rename the first two iterations **Sprint 1** and **Sprint 2**. Read their displayed start/end dates: each covers seven days, and Sprint 2 starts the day after Sprint 1 ends. Create the second iteration if necessary. Reuse an existing correctly configured Sprint field; do not copy dates from a screenshot or add a second Sprint field. Return to Backlog.
+3. Set only implementation #{{ISSUE_implementation}} and verification #{{ISSUE_verification}} to **Sprint 1**. In the view settings, choose **Group by → Sprint** and **Field sum → Effort**. This menu is multi-select: clear **Count** if selected so you read the effort total rather than the number of items. **Save** the view. Check the Sprint 1 group shows **Effort 5** (3 + 2), not Count 2; effort is not available working hours.
 
 ![Field creation entry point and iteration settings in GitHub Projects](../../assets/screenshots/lab-2-step-1.png)
 

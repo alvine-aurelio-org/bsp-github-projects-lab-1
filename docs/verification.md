@@ -21,7 +21,7 @@ V2 starts with an empty backlog-role map. At Step 1-1 the learner creates four w
 
 | Class               | Activities                                                                                                                                                                                                |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Self-confirmed      | Project existence/privacy/linking, cloning, item membership, draft conversion, fields, values, board, iterations, roadmap, workload, charts, status updates and export                                    |
+| Self-confirmed      | Project existence/privacy/linking, browser template-copy setup, item membership, draft conversion, fields, values, board, iterations, roadmap, workload, charts, status updates and export                 |
 | Repository-verified | Lab 2 native blocked_by relationship; learner PR, correct repository/head/base/branch, exact changed file/content and native closingIssuesReferences; same checked head merged into main and issue states |
 | Mixed               | Lab 2 final merge is repository-verified; Project Done and Sprint 2 reassignment are self-confirmed by the completion command                                                                             |
 
@@ -38,6 +38,18 @@ Run the portable `node --test --test-reporter=tap` suite and `node tools/verify-
 `tools/build-screenshots.mjs` downloads immutable, attributed GitHub Docs images and uses an author-only Playwright browser to render twelve navigation-overview sheets. Participant copies need none of that tooling. It preserves original files and digests for attribution and reproducibility. Images show real documented UI entry points; they are not claimed to be authenticated screenshots of a BSP tenant or proof that every latest menu was live-tested.
 
 The daily work report records actual local test counts, hosted workflow results and any native rehearsal scope. Do not claim a private personal Project was inspected automatically or that an unperformed UI exercise passed.
+
+## Manual rehearsal corrections — 2026-11-09
+
+The 2026-11-08/09 browser rehearsal exposed two source-checker defects, not invalid learner PRs. Lab 1's Step 2-4 rejected an already-merged PR; standalone Lab 2's Step 2-3 rejected a complete native PR snapshot. [GitHub's API breaking-change notice](https://docs.github.com/en/rest/about-the-rest-api/breaking-changes#version-2026-03-10) confirms that REST version **2026-03-10** removed **merge_commit_sha** from pull-request responses. The source transport already requested that version, while both engines still expected the removed field.
+
+The shared transport now normalizes an unmerged PR's internal merge value to null and reads a merged PR's native **GraphQL mergeCommit.oid**. It cross-checks the repository name, PR number and immutable node ID, head commit, head/base branch names, merged state and timestamp against the REST snapshot. Opaque GraphQL **id** / REST **node_id** matching avoids a dependency on deprecated 32-bit database IDs. Both the initial and final PR reads use this path; the existing same-head, native closing relationship, merged-file and issue-state checks remain required. No old API version, user-supplied commit, latest-main shortcut, extra permission or completion bypass is used.
+
+Regression fixtures reproduce current REST payloads with the field entirely absent. Malformed, mismatched, partial and denied GraphQL evidence must fail without advancing the command cursor. The standalone caller pins must be refreshed to the corrected source-runtime commit before publication; changing README wording alone cannot update a previously pinned runtime.
+
+The three source guides also clarify current Add field controls, explicit one-week iteration dates, multi-select Effort/Count totals, the one-checkbox PR diff, already-enabled completion workflows, the Roadmap Dates control and the export confirmation dialog. Export completion still requires a completed TSV entry in the browser's own Downloads panel. A clicked Export button, a hidden tab or an automation timeout does not establish a successful download.
+
+No learner copy, saved bot state, issue, PR or Project was repaired, reset or advanced as part of these source corrections. Existing copies do not automatically inherit template updates. The previous manual-run blockers remain recorded; source tests and read-only native evidence are not a claim that the entire workshop was rerun successfully.
 
 ## Historical v1 native bootstrap result — 2026-11-04
 

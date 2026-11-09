@@ -8,7 +8,7 @@ Fields store comparable planning information. A single-select field keeps priori
 
 ## Do
 
-1. In your Project's Backlog table, click the **+** at the right of the column headers → **New field**. Create **Priority**, type **Single select**, options **High**, **Medium**, **Low**. Create **Effort**, type **Number**. If a correctly typed field already exists, reuse it.
+1. In your Project's Backlog table, select the rightmost column-header **+ (Add field)**. In its menu, select **Add field** (older layouts say **New field**) to open **Create a project field**. Create **Priority**, type **Single select**, options **High**, **Medium**, **Low**. Repeat for **Effort**, type **Number**. If a correctly typed field already exists, reuse it; confirm Priority has the three requested option names rather than creating duplicate fields.
 2. Set the sample values:
 
    | Item | Priority | Effort |

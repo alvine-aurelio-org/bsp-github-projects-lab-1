@@ -250,6 +250,8 @@ export class FakeGitHub {
       full_name: this.repository.full_name,
     };
     this.pr = {
+      id: 900031,
+      node_id: 'PR_synthetic_900031',
       number: 31,
       state: 'open',
       merged: false,

@@ -1,7 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGitHubClient } from '../.github/scripts/github-api.mjs';
-import { HEAD, WORKSHOP, harness, reach } from './helpers/fake-github.mjs';
+import { runMona } from '../.github/scripts/mona-engine.mjs';
+import { runModule } from '../.github/scripts/module-engine.mjs';
+import { HEAD, MERGE, WORKSHOP, harness, reach } from './helpers/fake-github.mjs';
+import {
+  moduleFakeFetch,
+  moduleHarness,
+  reachModule,
+} from './helpers/module-fake-github.mjs';
 
 const ROOT = 'https://api.github.com/repos/learner/my-projects';
 const response = (data, options = {}) =>
@@ -63,6 +70,175 @@ const refsResponse = ({
 const nativeNode = (number = 2, repo = 'learner/my-projects') => ({
   number,
   repository: { nameWithOwner: repo },
+});
+
+// API 2026-03-10 omits merge_commit_sha, even for an already-merged PR.
+const restPR = (merged = false) => ({
+  id: 5_000_000_031,
+  node_id: 'PR_synthetic_large_id_31',
+  number: 31,
+  state: merged ? 'closed' : 'open',
+  merged,
+  merged_at: merged ? '2026-11-09T10:00:00Z' : null,
+  user: { id: 77, login: 'learner', type: 'User' },
+  changed_files: 1,
+  head: {
+    ref: WORKSHOP.workBranch,
+    sha: HEAD,
+    repo: { id: 100, full_name: 'learner/my-projects' },
+  },
+  base: {
+    ref: 'main',
+    sha: 'c'.repeat(40),
+    repo: { id: 100, full_name: 'learner/my-projects' },
+  },
+});
+const mergeResponse = () => ({
+  data: {
+    repository: {
+      nameWithOwner: 'learner/my-projects',
+      pullRequest: {
+        number: 31,
+        id: 'PR_synthetic_large_id_31',
+        state: 'MERGED',
+        merged: true,
+        mergedAt: '2026-11-09T10:00:00Z',
+        headRefName: WORKSHOP.workBranch,
+        headRefOid: HEAD,
+        baseRefName: 'main',
+        mergeCommit: { oid: MERGE },
+      },
+    },
+  },
+});
+
+test('current REST PRs without merge_commit_sha and with large IDs are normalized; only merged PRs read native GraphQL merge evidence', async (t) => {
+  for (const merged of [false, true])
+    await t.test(`merged=${merged}`, async () => {
+      const { api, calls } = client((url, init) => {
+        if (url.pathname !== '/graphql') {
+          assert.equal(url.pathname, '/repos/learner/my-projects/pulls/31');
+          assert.equal(init.method, 'GET');
+          return response(restPR(merged));
+        }
+        const body = JSON.parse(init.body);
+        assert.match(body.query, /mergeCommit\s*\{\s*oid\s*\}/);
+        assert.ok(!body.query.includes('databaseId'));
+        assert.ok(!/mutation|project|search\s*\(/i.test(body.query));
+        assert.deepEqual(body.variables, {
+          owner: 'learner',
+          name: 'my-projects',
+          number: 31,
+        });
+        return response(mergeResponse());
+      });
+      assert.equal(Object.hasOwn(restPR(merged), 'merge_commit_sha'), false);
+      const pr = await api.getPullRequest(31);
+      assert.deepEqual(pr, {
+        ...restPR(merged),
+        merge_commit_sha: merged ? MERGE : null,
+      });
+      assert.equal(calls.length, merged ? 2 : 1);
+    });
+});
+
+test('native GraphQL merge evidence must match the REST repository, PR ID, head, branch, state and timestamp', async (t) => {
+  const cases = {
+    wrongNumber: (pr) => { pr.number = 32; },
+    wrongId: (pr) => { pr.id = 'PR_different'; },
+    wrongHead: (pr) => { pr.headRefOid = 'd'.repeat(40); },
+    wrongHeadBranch: (pr) => { pr.headRefName = 'other-branch'; },
+    wrongBaseBranch: (pr) => { pr.baseRefName = 'other-base'; },
+    wrongState: (pr) => { pr.state = 'CLOSED'; },
+    notMerged: (pr) => { pr.merged = false; },
+    wrongTime: (pr) => { pr.mergedAt = '2026-11-09T11:00:00Z'; },
+    missingCommit: (pr) => { pr.mergeCommit = null; },
+    malformedCommit: (pr) => { pr.mergeCommit.oid = 'main'; },
+  };
+  for (const [label, change] of Object.entries(cases))
+    await t.test(label, async () => {
+      const data = mergeResponse();
+      change(data.data.repository.pullRequest);
+      const { api, calls } = client((url) =>
+        response(url.pathname === '/graphql' ? data : restPR(true)),
+      );
+      await assert.rejects(api.getPullRequest(31), /complete repository evidence/);
+      assert.equal(calls.length, 2);
+    });
+  for (const label of ['wrongRepository', 'errors', 'partial', 'denied'])
+    await t.test(label, async () => {
+      const data = mergeResponse();
+      if (label === 'wrongRepository') data.data.repository.nameWithOwner = 'other/repo';
+      if (label === 'errors') data.errors = [{ message: 'MUST_NOT_LEAK' }];
+      if (label === 'partial') data.data.repository.pullRequest = null;
+      const { api, calls } = client((url) =>
+        url.pathname === '/graphql'
+          ? response(data, label === 'denied' ? { status: 403 } : {})
+          : response(restPR(true)),
+      );
+      await assert.rejects(api.getPullRequest(31), (error) => {
+        assert.equal(error.code, label === 'denied' ? 'API_UNAVAILABLE' : 'API_INCOMPLETE');
+        assert.ok(!error.message.includes('MUST_NOT_LEAK'));
+        return true;
+      });
+      assert.equal(calls.length, 2);
+    });
+});
+
+test('both engines accept current PR responses and preserve the failed merge-read command for a safe retry', async (t) => {
+  for (const standalone of [false, true])
+    await t.test(standalone ? 'standalone Lab 2' : 'full-workshop Lab 1', async () => {
+      const h = standalone ? moduleHarness() : harness();
+      if (standalone) await reachModule(h, 3);
+      else await reach(h, '2-3');
+      h.api.configurePR();
+      const requests = [];
+      const fetchImpl = moduleFakeFetch(h.api, requests);
+      let denyMerge = true;
+      const api = createGitHubClient({
+        token: 'synthetic-not-a-credential',
+        repository: h.api.repository.full_name,
+        fetchImpl: (url, init) =>
+          denyMerge && init.body?.includes('query MonaMergeCommit(')
+            ? response({ message: 'MUST_NOT_LEAK' }, { status: 403 })
+            : fetchImpl(url, init),
+      });
+      const context = {
+        repository: h.api.repository.full_name,
+        actor: 'learner',
+        eventName: 'workflow_dispatch',
+        event: {},
+      };
+      const run = () =>
+        standalone
+          ? runModule({ module: h.module, readme: h.readme, api, context })
+          : runMona({ workshop: h.workshop, loadLesson: h.loadLesson, api, context });
+      const initial = h.api.state().completed.length;
+      h.api.addComment(h.api.exercise().number, '/check 2-3 #31');
+      await run();
+      assert.equal(h.api.state().completed.length, initial + 1);
+      assert.equal(h.api.messages('lesson:2-4').length, 1);
+      h.api.mergePR();
+      h.api.addComment(h.api.exercise().number, '/check 2-4 #31');
+      const saved = h.api.stateComment().body;
+      const writes = h.api.writes().length;
+      await assert.rejects(run(), (error) => {
+        assert.equal(error.code, 'API_UNAVAILABLE');
+        assert.match(error.message, /HTTP 403/);
+        assert.ok(!error.message.includes('MUST_NOT_LEAK'));
+        return true;
+      });
+      assert.equal(h.api.stateComment().body, saved);
+      assert.equal(h.api.writes().length, writes);
+      denyMerge = false;
+      await run();
+      assert.equal(h.api.state().completed.length, initial + 2);
+      assert.equal(h.api.messages('feedback:2-4').length, 1);
+      assert.ok(h.api.messages('feedback:2-4')[0].body.includes(MERGE));
+      assert.ok(requests.some(({ query }) => query.includes(`ref=${MERGE}`)));
+      assert.ok(requests.every(({ path }) => !path.includes('/projects')));
+      assert.equal(h.api.counts('createIssue'), 1);
+    });
 });
 
 test('all REST list endpoints paginate, including full pages without Link', async (t) => {

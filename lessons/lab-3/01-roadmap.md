@@ -8,9 +8,9 @@ A Roadmap places the same work on a timeline using date or iteration fields. It 
 
 ## Do
 
-1. Open [your same Project]({{PROJECT_URL}}) → Backlog. Create **Start date** and **Target date**, both type **Date**, using the header **+ → New field**. Reuse an existing correctly typed field rather than duplicating it.
-2. Give implementation #{{ISSUE_implementation}} dates within Sprint 1 and verification #{{ISSUE_verification}} dates within Sprint 2. Ensure each start is on or before its target.
-3. Click **New view → Roadmap**, name it **Release roadmap**. Select **Date fields** and map Start date and Target date to the fields you just populated. Under **Markers**, show the Sprint iteration markers. Save the view.
+1. Open [your same Project]({{PROJECT_URL}}) → Backlog. Select the rightmost **+ (Add field) → Add field** (sometimes **New field**) and create **Start date** and **Target date**, both type **Date**. Reuse an existing correctly typed field rather than duplicating it.
+2. Read the actual Sprint 1 and Sprint 2 start/end dates in **… → Settings → Sprint**. Give implementation #{{ISSUE_implementation}} dates within Sprint 1 and verification #{{ISSUE_verification}} dates within Sprint 2. Ensure each start is on or before its target; do not copy screenshot dates or assume Monday starts.
+3. Click **New view → Roadmap**, name it **Release roadmap**, and clear inherited filters so closed/Done implementation stays visible. Open **Dates** (shown as **Dates: Start date and Target date** after mapping; some layouts call it **Date fields**) and select the two fields you populated. Under **Markers**, show **Sprint** iteration markers. **Save** the view and confirm both timeline bars appear.
 
 ![New view entry point and the Roadmap Date fields toolbar control](../../assets/screenshots/lab-3-step-1.png)
 
